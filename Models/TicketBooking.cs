@@ -13,7 +13,12 @@ namespace FlightBookingSystem.Models
         //Ticket Booking Controller to work on this Class
 
         [Key]
-        public int BookingID { get; set; }        
+        public int BookingID { get; set; }
+
+        [Display(Name = "Flight Number")]
+        [Required(ErrorMessage = "Flight Number is Required")]
+        [MaxLength(20, ErrorMessage = "Max 20 char allowed"), MinLength(5, ErrorMessage = "Min 5 char required eg SG732")]
+        public string FlightNumber { get; set; }
 
         [Display(Name = "User Name")]
         [Required(ErrorMessage = "Name is Required")]
@@ -48,7 +53,7 @@ namespace FlightBookingSystem.Models
 
         [Display(Name = "Selected Seat Number")]
         [Required(ErrorMessage = "Seat Selection is Required")]
-        public int SeatSelected { get; set; }
+        public string SeatSelected { get; set; } // Make this String to have 21A, 23D kind of seat numbers.
 
         //[Display(Name = "Return Seat Number")]
         //[Required(ErrorMessage = "Seat Selection is Required")]
@@ -56,7 +61,26 @@ namespace FlightBookingSystem.Models
 
         public string PNR { get; set; } //Initialize a PNR and increment from Controller
 
-        public string TicketStatus { get; set; } //Active or Cancelled
+        public string TicketStatus { get; set; } //Active or Cancelled        
 
     }
 }
+
+//{
+//    "userName": "Ashish Ankit",
+//  "email": "ashish111@gmail.com",
+//  "noofSeats": 1,
+//  "passengers": [
+//    {
+//        "passengerID": 0,
+//      "passengerName": "Ashish Ankit",
+//      "gender": "Male",
+//      "age": 25
+//    }
+//  ],
+//  "mealPreference": "Veg",
+//  "seatType": "Economy",
+//  "seatSelected": 21A,
+//  "pnr": "string",
+//  "ticketStatus": "Active"
+//}

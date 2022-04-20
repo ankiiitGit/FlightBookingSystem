@@ -1,3 +1,7 @@
+using FlightBookingSystem.Configurations;
+using FlightBookingSystem.Data;
+using FlightBookingSystem.Repository;
+using FlightBookingSystem.Repository.DBRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,7 +38,7 @@ namespace FlightBookingSystem
                 .AddJsonOptions(options => 
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
-            //services.AddDbContext<FMSDBContext>();
+            services.AddDbContext<FBSDbContext>();
 
             //services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<FMSDBContext>();
 
@@ -45,10 +49,17 @@ namespace FlightBookingSystem
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FlightBookingSystem", Version = "v1" });
             });
 
-            //services.AddScoped<IUserRepository, DBUserRepository>();
-            //services.AddScoped<IAdminRepository, DBAdminRepository>();
+            // OAuth or JWT Authentication
+            //services.AddAuthentication
 
-            //services.AddAutoMapper(typeof(AutoMapperConfig));
+            services.AddScoped<IUserRepository, DBUserRepository>();
+            services.AddScoped<IAdminRepository, DBAdminRepository>();
+            //services.AddScoped<IAirlineRepository, DBAirlineRepository>();
+            //services.AddScoped<IFlightInfoRepository, DBFlightInfoRepository>();
+            //services.AddScoped<IPassengerRepository, DBPassengerRepository>();
+            //services.AddScoped<ITicketBookingRepository, DBTicketBookingRepository>();
+
+            services.AddAutoMapper(typeof(AutoMapperConfig));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

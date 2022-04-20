@@ -21,6 +21,8 @@ namespace FlightBookingSystem.Repository.DBRepository
         public List<FlightInfo> GetFlights(FlightInfo flightInfo) //(DateTime scheduledDeparture, string fromPlace, string toPlace);
         {
             IQueryable<FlightInfo> flightInfos = _dbContext.FlightInfos.AsNoTracking().AsQueryable()
+                                                    .Where(flight => flight.FromPlace == flightInfo.FromPlace)
+                                                    .Where(flight => flight.ToPlace == flightInfo.ToPlace)
                                                     .Where(flight => flight.ScheduledDeparture >= flightInfo.ScheduledDeparture);
 
             return flightInfos.ToList();
@@ -47,6 +49,7 @@ namespace FlightBookingSystem.Repository.DBRepository
             //if (booking != null) { GeneratePNR(); }            
 
             ticketBooking.PNR = pnr;
+            ticketBooking.TicketStatus = "Active";
             _dbContext.TicketBookings.Add(ticketBooking);
             _dbContext.SaveChanges();
             return ticketBooking;
@@ -55,7 +58,7 @@ namespace FlightBookingSystem.Repository.DBRepository
 
         public List<TicketBooking> GetTicketBookings(string email) //View History of Tkt Bookings with EMail
         {
-            IQueryable<TicketBooking> ticketBookings = _dbContext.TicketBookings.AsNoTracking().AsQueryable()
+            IQueryable<TicketBooking> ticketBookings = _dbContext.TicketBookings.Include(pas => pas.passengers).AsNoTracking().AsQueryable()
                                                         .Where(booking => booking.Email == email);
 
             return ticketBookings.ToList();
@@ -77,7 +80,7 @@ namespace FlightBookingSystem.Repository.DBRepository
 
         public TicketBooking GetTicketBookingPNR(string pnr) 
         {
-            TicketBooking booking = _dbContext.TicketBookings.AsNoTracking().FirstOrDefault(tkt => tkt.PNR == pnr);
+            TicketBooking booking = _dbContext.TicketBookings.AsNoTracking().Include(pas => pas.passengers).FirstOrDefault(tkt => tkt.PNR == pnr);
             return booking;
         }
 

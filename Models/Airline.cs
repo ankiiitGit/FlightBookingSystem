@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlightBookingSystem.Models
 {
-    [Table("TblAirline)")]
+    [Table("TblAirline")]
     public class Airline
     {
         [Key]

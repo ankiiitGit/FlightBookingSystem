@@ -24,23 +24,24 @@ namespace FlightBookingSystem.Controllers
         }
 
         // GET: api/<UserController>
-        [HttpGet]
-        public IActionResult Get([FromBody] FlightInfoDataModel flightInfo)
+        [HttpPost]
+        [Route("GetFlights")]
+        public IActionResult GetFlights([FromBody] FlightInfoDataModel flightInfo)
         {
             FlightInfo flight = _mapper.Map<FlightInfo>(flightInfo);
             return Ok(_repo.GetFlights(flight));
         }
 
         // GET: api/<UserController>
-        [HttpGet("{email}")]
-        public IActionResult GetTicketBookings([FromRoute] string email)
+        [HttpGet("GetTicketBookings/{email}")]      //[HttpGet("{email}")]        
+        public IActionResult GetTicketBookings(string email)
         {            
             return Ok(_repo.GetTicketBookings(email));
         }
 
         // GET: api/<UserController>
-        [HttpGet("{pnr}")]
-        public IActionResult GetTicketBookingPNR([FromRoute] string pnr)
+        [HttpGet("GetTicketBookingPNR/{pnr}")]        //[HttpGet("{pnr}")]        
+        public IActionResult GetTicketBookingPNR(string pnr)
         {
             return Ok(_repo.GetTicketBookingPNR(pnr));
         }
